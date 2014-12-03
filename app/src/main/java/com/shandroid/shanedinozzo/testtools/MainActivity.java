@@ -1,5 +1,6 @@
 package com.shandroid.shanedinozzo.testtools;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,14 +16,18 @@ import android.widget.Toast;
 import com.stericson.RootTools.RootTools;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends ActionBarActivity {
+
+    static String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         _firstAlert();
+        _cpuFreqTextViewUpdate();
     }
 
     @Override
@@ -122,4 +127,52 @@ public class MainActivity extends ActionBarActivity {
         AlertDialog alert11 = builder.create();
         alert11.show();
     }
+
+    private String _readCpuFreq(){
+        ProcessBuilder cmd;
+        result="";
+
+        try{
+            String[] args = {"/system/bin/cat",
+                    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"};
+            cmd = new ProcessBuilder(args);
+
+            Process process = cmd.start();
+            InputStream in = process.getInputStream();
+            byte[] read = new byte[1024];
+            while(in.read(read) != -1){
+                result = result + new String(read);
+            }
+            in.close();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public void _cpuFreqTextViewUpdate(){
+        final TextView cpuClockSpeed = (TextView) findViewById(R.id.cpu_clock_speed);
+
+        Thread cpuFreqUpdate = new Thread(){
+            @Override
+            public void run(){
+                try {
+                    while (true) {
+                        Thread.sleep(300);
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String str = _readCpuFreq();
+                                String strok = str.trim();
+                                cpuClockSpeed.setText(strok + " Khz");
+                            } //run()
+                        }); //MainActivity.this
+                    } //WHILE
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } //try-catch
+            } //run()
+        }; //thread
+        cpuFreqUpdate.start();
+    } //cpuFreqTextViewUpdate
 }

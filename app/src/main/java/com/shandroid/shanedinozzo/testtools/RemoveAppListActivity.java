@@ -233,7 +233,6 @@ public class RemoveAppListActivity extends Activity {
     public void _mountSystem(View view) {
         TextView mountSystem = (TextView) findViewById(R.id.mount_system);
         RootTools.remount("/system/", "rw");
-        mountSystem.setText("System partition mounted as R/W!\n" +
-                "You are ready to kick out some apps!");
+        mountSystem.setText(R.string.mount_system_utana);
     }
 }

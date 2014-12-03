@@ -14,6 +14,7 @@
     <string name="remove_ok_gomb">Remove selected apps</string>
     <string name="got_busybox">Busybox: ?\nPlease tap here tocheck it!</string>
     <string name="remove_apps_header">Select apps to remove!</string>
-    <string name="mount_system">Before start to remove apps,please tap here\nto mount system partition as read-write!</string>
+    <string name="mount_system_elotte">Before start to remove apps,please tap here\nto mount system partition as read-write!</string>
+    <string name="mount_system_utana">System partition successfully\nmounted as R/W</string>
 
 </resources>

@@ -33,12 +33,12 @@
         android:text="@string/got_busybox"
         android:gravity="center"
         android:clickable="true"
-        android:onClick="_checkBusybox"/>
+        android:onClick="_checkBusybox" />
 
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="25dp" />
 
    <Button
         android:id="@+id/removeAppsButton"
@@ -50,7 +50,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="25dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -62,13 +62,32 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="25dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/powerOffDevice"
         android:text="@string/power_off_device_button"
-        android:onClick="_powerOff"/>
+        android:onClick="_powerOff" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Current CPU clock speed:" />
+
+    <TextView
+        android:id="@+id/cpu_clock_speed"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
