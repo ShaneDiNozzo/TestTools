@@ -23,7 +23,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_gravity="end"
@@ -50,7 +50,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="25dp" />
 
     <TextView
         android:gravity="center"
@@ -93,7 +93,7 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="20dp" />
 
         <ScrollView
             android:layout_width="fill_parent"

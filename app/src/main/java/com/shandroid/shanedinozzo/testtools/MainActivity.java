@@ -17,31 +17,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.exceptions.RootDeniedException;
+import com.stericson.RootTools.execution.CommandCapture;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends ActionBarActivity {
-    String[] cpuFreqs = {
-            "300 MHz",
-            "422 MHz",
-            "652 MHz",
-            "729 MHz",
-            "883 MHz",
-            "960 MHz",
-            "1.037 GHz",
-            "1.19 GHz",
-            "1.267 GHz",
-            "1.498 GHz",
-            "1.574 GHz",
-            "1.728 GHz",
-            "1.958 GHz",
-            "2.266 GHz"};
-
-    Spinner cpuMaxSpinner;
-    Spinner cpuMinSpinner;
-    int checkmax = 0;
-    int checkmin = 0;
+    String[] cpuFreqs = {"300 MHz", "422 MHz", "652 MHz", "729 MHz", "883 MHz", "960 MHz",
+            "1.037 GHz", "1.19 GHz", "1.267 GHz", "1.498 GHz", "1.574 GHz", "1.728 GHz",
+            "1.958 GHz",  "2.266 GHz"};
+    Spinner cpuMaxSpinner, cpuMinSpinner;
+    int checkmax, checkmin = 0;
     int selectedMaxFreq, selectedMinFreq, convertedMaxFreq, convertedMinFreq;
     String result, convertedMinFreqString, convertedMaxFreqString;
 
@@ -91,12 +79,42 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void _rebootDevice(View view) {
-        Toast toast = Toast.makeText(this, "This function is not yet implemented!\n" +
-                        "It's coming soon!",
-                Toast.LENGTH_LONG);
-        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-        if( v != null) v.setGravity(Gravity.CENTER);
-        toast.show();
+        final CharSequence[] items = {"Reboot", "Reboot into recovery", "Reboot into Download"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("REBOOT");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                switch (item) {
+                    case 0:
+                        try {
+                            CommandCapture command = new CommandCapture(0, "reboot");
+                            RootTools.getShell(true).add(command);
+                        } catch (RootDeniedException | IOException | TimeoutException rdeie) {
+                            rdeie.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        try {
+                            CommandCapture command = new CommandCapture(0, "reboot recovery");
+                            RootTools.getShell(true).add(command);
+                        } catch (RootDeniedException | IOException | TimeoutException rdeie) {
+                            rdeie.printStackTrace();
+                        }
+                        break;
+                    case 2:
+                        try {
+                            CommandCapture command = new CommandCapture(0, "reboot download");
+                            RootTools.getShell(true).add(command);
+                        } catch (RootDeniedException | IOException | TimeoutException rdeie) {
+                            rdeie.printStackTrace();
+                        }
+                        break;
+                }
+            }
+        });
+        AlertDialog levelDialog = builder.create();
+        levelDialog.show();
     }
 
     public void _powerOff(View view) {
@@ -256,6 +274,18 @@ public class MainActivity extends ActionBarActivity {
                 android.R.id.message);
         if (v != null) v.setGravity(Gravity.CENTER);
         toast.show();
+
+        try {
+            CommandCapture command = new CommandCapture(0,"echo \"" + convertedMaxFreqString  +
+                    "\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq" );
+            RootTools.getShell(true).add(command);
+        } catch (RootDeniedException | IOException rdeie) {
+            rdeie.printStackTrace();
+            Toast.makeText(this, rdeie.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (TimeoutException te) {
+            te.printStackTrace();
+            Toast.makeText(this, te.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void _setSelectedMinFreqs(View view) {
@@ -268,6 +298,18 @@ public class MainActivity extends ActionBarActivity {
                 android.R.id.message);
         if( v != null) v.setGravity(Gravity.CENTER);
         toast.show();
+
+        try {
+            CommandCapture command = new CommandCapture(0,"echo \"" + convertedMinFreqString  +
+                    "\" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq" );
+            RootTools.getShell(true).add(command);
+        } catch (RootDeniedException | IOException rdeie) {
+            rdeie.printStackTrace();
+            Toast.makeText(this, rdeie.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (TimeoutException te) {
+            te.printStackTrace();
+            Toast.makeText(this, te.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String _convertMinToKhz() {

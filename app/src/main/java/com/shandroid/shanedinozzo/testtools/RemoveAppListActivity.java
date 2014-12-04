@@ -2,6 +2,7 @@ package com.shandroid.shanedinozzo.testtools;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,8 +27,9 @@ public class RemoveAppListActivity extends Activity {
 
     public void _appExist() {
         Button aospBrowserButton = (Button) findViewById(R.id.aosp_browser_button);
-        File aospBrowser = new File("/system/app/Browser.apk");
-        if (aospBrowser.exists()) {
+        File aospBrowser_0 = new File("/system/app/Browser.apk");
+        File aospBrowser_1 = new File("/system/app/Browser/Browser.apk");
+        if (aospBrowser_0.exists() || aospBrowser_1.exists()) {
             aospBrowserButton.setText("AOSP Browser");
         } else {
             aospBrowserButton.setEnabled(false);
@@ -131,7 +133,8 @@ public class RemoveAppListActivity extends Activity {
         Button aospBrowserButton = (Button) findViewById(R.id.aosp_browser_button);
         try {
             CommandCapture command = new CommandCapture(0,
-                    "mv /system/app/Browser.apk /system/app/Browser.ap");
+                    "mv /system/app/Browser.apk /system/app/Browser.ap || " +
+                            "mv /system/app/Browser/Browser.apk /system/app/Browser/Browser.ap");
             RootTools.getShell(true).add(command);
             aospBrowserButton.setText("AOSP Browser removed successfully");
             aospBrowserButton.setEnabled(false);
@@ -145,8 +148,7 @@ public class RemoveAppListActivity extends Activity {
         try {
             CommandCapture command = new CommandCapture(0,
                     "mv /system/app/Email.apk /system/app/Email.ap || " +
-                            "mv /system/app/Email/Email.apk " +
-                            "/system/app/Email/Email.ap");
+                            "mv /system/app/Email/Email.apk /system/app/Email/Email.ap");
             RootTools.getShell(true).add(command);
             aospEmailButton.setText("AOSP Email removed successfully");
             aospEmailButton.setEnabled(false);
@@ -320,6 +322,25 @@ public class RemoveAppListActivity extends Activity {
         } catch (TimeoutException te) {
             te.printStackTrace();
             Toast.makeText(this, te.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void _checkForAptoideApk(View view) {
+        TextView aptoideDownloadAndInstall = (TextView) findViewById(
+                R.id.aptoide_download_and_install);
+        File AptoideApk = new File(Environment.getExternalStorageDirectory(),
+                "/Download/aptoide5.2.0.2.apk");
+        if (AptoideApk.exists()) {
+            try {
+                CommandCapture command = new CommandCapture(0,
+                        "pm install " + AptoideApk);
+                RootTools.getShell(true).add(command);
+            } catch (RootDeniedException | TimeoutException | IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            aptoideDownloadAndInstall.setText(
+                    "The \"aptoide5.2.0.2.apk\" is not in the Download directory!");
         }
     }
 }
