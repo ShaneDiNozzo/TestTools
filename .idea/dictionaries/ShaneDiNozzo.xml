@@ -3,14 +3,19 @@
     <words>
       <w>aosp</w>
       <w>busybox</w>
+      <w>checkmax</w>
+      <w>checkmin</w>
       <w>cpufreq</w>
       <w>filemanager</w>
+      <w>freqs</w>
       <w>omni</w>
       <w>omniswitch</w>
       <w>priv</w>
       <w>remapps</w>
+      <w>rowlayout</w>
       <w>soundrecorder</w>
       <w>spooler</w>
+      <w>strok</w>
       <w>whoami</w>
       <w>xmlns</w>
     </words>
