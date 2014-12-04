@@ -91,6 +91,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="_print_spooler"/>
+
+            <Button
+                android:id="@+id/aosp_calendar_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="_aosp_calendar"/>
+
+            <Button
+                android:id="@+id/aosp_voice_dialer_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="_aosp_voice_dialer"/>
+
+            <Button
+                android:id="@+id/aosp_camera_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="_aosp_camera"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

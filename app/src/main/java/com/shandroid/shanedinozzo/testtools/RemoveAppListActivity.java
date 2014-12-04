@@ -35,8 +35,9 @@ public class RemoveAppListActivity extends Activity {
         }
 
         Button aospEmailButton = (Button) findViewById(R.id.aosp_email_button);
-        File aospEmail = new File("/system/app/Email.apk");
-        if (aospEmail.exists()) {
+        File aospEmail_0 = new File("/system/app/Email.apk");
+        File aospEmail_1 = new File("/system/app/Email/Email.apk");
+        if (aospEmail_0.exists() || aospEmail_1.exists()) {
             aospEmailButton.setText("AOSP Email");
         } else {
             aospEmailButton.setEnabled(false);
@@ -44,8 +45,9 @@ public class RemoveAppListActivity extends Activity {
         }
 
         Button cmFileManagerButton = (Button) findViewById(R.id.cm_filemanager_button);
-        File cmFileManager  = new File("/system/app/CMFileManager.apk");
-        if (cmFileManager.exists()) {
+        File cmFileManager_0 = new File("/system/app/CMFileManager.apk");
+        File cmFileManager_1 = new File("/system/app/CMFileManager/CMFileManager.apk");
+        if (cmFileManager_0.exists() || cmFileManager_1.exists()) {
             cmFileManagerButton.setText("CM File Manager");
         } else {
             cmFileManagerButton.setEnabled(false);
@@ -96,6 +98,33 @@ public class RemoveAppListActivity extends Activity {
             printSpoolerButton.setEnabled(false);
             printSpoolerButton.setText("Print Spooler is already removed!");
         }
+
+        Button aospCalendarButton = (Button) findViewById(R.id.aosp_calendar_button);
+        File aospCalendar = new File("/system/app/Calendar/Calendar.apk");
+        if (aospCalendar.exists()) {
+            aospCalendarButton.setText("AOSP Calendar");
+        } else {
+            aospCalendarButton.setEnabled(false);
+            aospCalendarButton.setText("AOSP Calendar is already removed!");
+        }
+
+        Button aospVoiceDialerButton = (Button) findViewById(R.id.aosp_voice_dialer_button);
+        File aospVoiceDialer = new File("/system/priv-app/VoiceDialer/VoiceDialer.apk");
+        if (aospVoiceDialer.exists()) {
+            aospVoiceDialerButton.setText("AOSP Voice Dialer");
+        } else {
+            aospVoiceDialerButton.setEnabled(false);
+            aospVoiceDialerButton.setText("AOSP Voice Dialer is already removed!");
+        }
+
+        Button aospCameraButton = (Button) findViewById(R.id.aosp_camera_button);
+        File aospCamera_1 = new File("/system/app/Camera2/Camera2.apk");
+        if (aospCamera_1.exists()) {
+            aospCameraButton.setText("AOSP Camera");
+        } else {
+            aospCameraButton.setEnabled(false);
+            aospCameraButton.setText("AOSP Camera is already removed!");
+        }
     }
 
     public void _aosp_browser(View view) {
@@ -115,7 +144,9 @@ public class RemoveAppListActivity extends Activity {
         Button aospEmailButton = (Button) findViewById(R.id.aosp_email_button);
         try {
             CommandCapture command = new CommandCapture(0,
-                    "mv /system/app/Email.apk /system/app/Email.ap");
+                    "mv /system/app/Email.apk /system/app/Email.ap || " +
+                            "mv /system/app/Email/Email.apk " +
+                            "/system/app/Email/Email.ap");
             RootTools.getShell(true).add(command);
             aospEmailButton.setText("AOSP Email removed successfully");
             aospEmailButton.setEnabled(false);
@@ -132,7 +163,9 @@ public class RemoveAppListActivity extends Activity {
         Button cmFileManagerButton = (Button) findViewById(R.id.cm_filemanager_button);
         try {
             CommandCapture command = new CommandCapture(0,
-                    "mv /system/app/CMFileManager.apk /system/app/CMFileManager.ap");
+                    "mv /system/app/CMFileManager.apk /system/app/CMFileManager.ap || " +
+                            "mv /system/app/CMFileManager/CMFileManager.apk " +
+                            "/system/app/CMFileManager/CMFileManager.ap");
             RootTools.getShell(true).add(command);
             cmFileManagerButton.setText("CM File Manager removed successfully");
             cmFileManagerButton.setEnabled(false);
@@ -234,5 +267,59 @@ public class RemoveAppListActivity extends Activity {
         TextView mountSystem = (TextView) findViewById(R.id.mount_system);
         RootTools.remount("/system/", "rw");
         mountSystem.setText(R.string.mount_system_utana);
+    }
+
+    public void _aosp_calendar(View view) {
+        Button aospCalendarButton = (Button)findViewById(R.id.aosp_calendar_button);
+        try {
+            CommandCapture command = new CommandCapture(0,
+                    "mv /system/app/PrintSpooler.apk /system/app/PrintSpooler.ap || " +
+            "mv /system/app/Calendar/Calendar.apk /system/app/Calendar/Calendar.ap");
+            RootTools.getShell(true).add(command);
+            aospCalendarButton.setText("AOSP Calendar removed successfully");
+            aospCalendarButton.setEnabled(false);
+        } catch (RootDeniedException | IOException rdeie) {
+            rdeie.printStackTrace();
+            Toast.makeText(this, rdeie.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (TimeoutException te) {
+            te.printStackTrace();
+            Toast.makeText(this, te.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void _aosp_voice_dialer(View view) {
+        Button aospVoiceDialerButton = (Button)findViewById(R.id.aosp_voice_dialer_button);
+        try {
+            CommandCapture command = new CommandCapture(0,
+                    "mv /system/app/VoiceDialer.apk /system/app/VoiceDialer.ap || " +
+                            "mv /system/priv-app/VoiceDialer/VoiceDialer.apk" +
+                            " /system/priv-app/VoiceDialer/VoiceDialer.ap");
+            RootTools.getShell(true).add(command);
+            aospVoiceDialerButton.setText("AOSP Calendar removed successfully");
+            aospVoiceDialerButton.setEnabled(false);
+        } catch (RootDeniedException | IOException rdeie) {
+            rdeie.printStackTrace();
+            Toast.makeText(this, rdeie.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (TimeoutException te) {
+            te.printStackTrace();
+            Toast.makeText(this, te.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void _aosp_camera(View view) {
+        Button aospCameraButton = (Button)findViewById(R.id.aosp_camera_button);
+        try {
+            CommandCapture command = new CommandCapture(0,
+                    "mv /system/app/Camera2/Camera2.apk /system/app/Camera2/Camera2.ap");
+            RootTools.getShell(true).add(command);
+            aospCameraButton.setText("AOSP Calendar removed successfully");
+            aospCameraButton.setEnabled(false);
+        } catch (RootDeniedException | IOException rdeie) {
+            rdeie.printStackTrace();
+            Toast.makeText(this, rdeie.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (TimeoutException te) {
+            te.printStackTrace();
+            Toast.makeText(this, te.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
